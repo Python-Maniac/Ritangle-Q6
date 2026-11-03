@@ -1,0 +1,83 @@
+from tkinter import *
+import math
+window=Tk()
+canvas=Canvas(window, height=700, width=1275)
+canvas.pack()
+points=[[0, 0]]
+points2=[[0, 0]]
+n=2
+def maponto1():
+    global n
+    n=2*(2**0.5)
+    for i in range(53):
+        points.append([points[len(points)-1][0]+n/(2**0.5), points[len(points)-1][1]])
+        n/=(2**0.5)
+        points.append([points[len(points)-1][0], points[len(points)-1][1]+n/(2**0.5)])
+        n/=(2**0.5)
+
+def maponto2():
+    global n
+    n=3
+    for i in range(53):
+        points2.append([points2[len(points2)-1][0]+n, points2[len(points2)-1][1]])
+        n/=(3**0.5)
+        points2.append([points2[len(points2)-1][0], points2[len(points2)-1][1]+n])
+        n/=(3**0.5)
+        points2.append([points2[len(points2)-1][0]-n, points2[len(points2)-1][1]])
+        n/=(3**0.5)
+        points2.append([points2[len(points2)-1][0], points2[len(points2)-1][1]-n])
+
+maponto1()
+maponto2()
+def createscreen():
+    global points
+    for i in range(len(points)):
+        canvas.create_oval(points[i][0]*100-1+300, points[i][1]*-100+550-1, points[i][0]*100+1+300, points[i][1]*-100+550+1, fill="blue", outline="")
+        if i!=0:
+            canvas.create_line(points[i][0]*100+300, points[i][1]*-100+550, points[i-1][0]*100+300, points[i-1][1]*-100+550, fill="light blue")
+    for i in range(len(points2)):
+        canvas.create_oval(points2[i][0]*100-1+300, points2[i][1]*-100+550-1, points2[i][0]*100+1+300, points2[i][1]*-100+550+1, fill="red", outline="")
+        if i!=0:
+            canvas.create_line(points2[i][0]*100+300, points2[i][1]*-100+550, points2[i-1][0]*100+300, points2[i-1][1]*-100+550, fill="pink")
+    for i in range(10):
+        canvas.create_line(i*100, 545, i*100, 555)
+    canvas.create_text(20, 20, text=f"BLUE: {points[len(points)-1][0]}, {points[len(points)-1][1]}", anchor="w")
+    canvas.create_text(20, 50, text=f"RED: {points2[len(points2)-1][0]}, {points2[len(points2)-1][1]}", anchor="w")
+    canvas.create_text(20, 80, text=f"RED: {((points2[len(points2)-1][0]-points[len(points)-1][0])**2+(points2[len(points2)-1][1]-points[len(points)-1][1])**2)}", anchor="w")
+    #canvas.create_text(20, 80, text=f"DIST: {round(((points2[len(points2)-1][0]**2-points[len(points)-1][0]**2)+(points2[len(points2)-1][1]**2-points[len(points)-1][1]**2))**0.5), 10}s", anchor="w")
+    canvas.create_line(300, 0, 300, 700)
+    canvas.create_line(0, 550, 1275, 550)
+    # for i in range(len(points)):
+    #     point1=(((points[i][0]-points2[i][0])**2+(points[i][1]-points2[i][1])**2)**0.5)
+    #     if i>0: 
+    #         point0=(((points[i-1][0]-points2[i-1][0])**2+(points[i-1][1]-points2[i-1][1])**2)**0.5)
+    #         canvas.create_line(((i-1)/25)*100+300, point0*-100+550, (i/25)*100+300, point1*-100+550, fill="light blue")
+    #     #canvas.create_oval((i/25)*100-1+300, point1*-100+550-1, (i/25)*100+1+300, point1*-100+550+1, fill="blue", outline="")
+createscreen()
+window.mainloop()
+
+
+
+
+
+
+
+
+a=1001
+b=1
+c=0
+while True:
+    c+=1
+    if c>=2000:
+        b+=2
+        c=1001
+        if b>=2000:
+            a+=2
+            b=1001
+            print(a)
+            if a>=2000:
+                print("NAH")
+                exit()
+    if round(a/b-c**0.5, 8)==round(4.276595300406259, 8):# and (c**0.5)==(c**0.5)//2:
+        print(a, b, c, a*b*c)
+        exit()
