@@ -1,0 +1,18 @@
+a=1001
+b=1
+c=0
+while True:
+    c+=1
+    if c>=10000:
+        b+=2
+        c=1001
+        if b>=10000:
+            a+=2
+            b=1001
+            print(a)
+            if a>=10000:
+                print("NAH")
+                exit()
+    if round(a/b-c**0.5, 8)==round(4.276595300406259, 8):# and (c**0.5)==(c**0.5)//2:
+        print(a, b, c, a*b*c)
+        exit()
